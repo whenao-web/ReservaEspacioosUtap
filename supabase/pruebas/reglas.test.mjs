@@ -217,3 +217,12 @@ test("CONCURRENCIA: dos reservas simultaneas del mismo usuario no superan el lim
   const n = (await admin(`select count(*)::int n from reservas where usuario_id = '${u.id}'`)).rows[0].n;
   assert.equal(n, 3);
 });
+
+test("MIGRACION 5: el administrador asigna una imagen con ruta relativa", async () => {
+  const r = await como(U.dora, "update espacios set imagen = 'img/espacios/sala-a.jpg' where nombre = 'Sala A' returning imagen");
+  assert.equal(r.rows[0].imagen, "img/espacios/sala-a.jpg");
+});
+test("SEGURIDAD: la imagen no acepta javascript: ni http sin cifrar", async () => {
+  await falla(como(U.dora, "update espacios set imagen = 'javascript:alert(1)' where nombre = 'Sala B'"), /23514/);
+  await falla(como(U.dora, "update espacios set imagen = 'http://ejemplo.com/x.jpg' where nombre = 'Sala B'"), /23514/);
+});
