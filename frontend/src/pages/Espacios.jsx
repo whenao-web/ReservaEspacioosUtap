@@ -35,7 +35,7 @@ export default function Espacios() {
 
       {espacios.cargando && <Estado tipo="cargando" />}
       {espacios.error && <Estado tipo="error" mensaje={espacios.error} />}
-      {espacios.datos?.length === 0 && <Estado tipo="vacio" mensaje="Ningún espacio cumple ese filtro." />}
+      {espacios.datos?.length === 0 && <Estado tipo="vacio" mensaje={tipo || capacidadMin ? 'Ningún espacio cumple ese filtro.' : 'Todavía no hay espacios registrados.'} />}
       {espacios.datos?.length > 0 && (
         <ul className="lista-espacios">
           {espacios.datos.map((e) => <TarjetaEspacio key={e.id} espacio={e} />)}
