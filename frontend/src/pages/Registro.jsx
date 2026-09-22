@@ -28,7 +28,7 @@ export default function Registro() {
   }
 
   return (
-    <>
+    <div className="acceso">
       <h1>Crear cuenta</h1>
       <form className="formulario" onSubmit={enviar}>
         <div className="campo">
@@ -47,6 +47,6 @@ export default function Registro() {
         <button type="submit" disabled={enviando}>{enviando ? 'Creando…' : 'Crear cuenta'}</button>
         <p>¿Ya tiene cuenta? <Link to="/login">Inicie sesión</Link></p>
       </form>
-    </>
+    </div>
   )
 }

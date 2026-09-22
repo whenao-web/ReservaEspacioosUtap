@@ -11,6 +11,7 @@
 body, h1, h2, h3, p, ul, ol, dl, dd, figure { margin: 0; }
 ul, ol { padding: 0; list-style: none; }
 img { max-width: 100%; display: block; }
+[hidden] { display: none !important; }   /* sin esto, img { display: block } anula el atributo hidden */
 
 /* ---------- 2. TOKENS ---------- */
 :root {
@@ -90,7 +91,7 @@ a { color: var(--azul); }
 main {
   flex: 1; width: 100%;
   display: grid; align-content: start;
-  grid-template-columns: minmax(var(--e2), 1fr) minmax(0, var(--ancho-max)) minmax(var(--e2), 1fr);
+  grid-template-columns: minmax(var(--e2), 1fr) minmax(0, calc(var(--ancho-max) - 2 * var(--e2))) minmax(var(--e2), 1fr);
 }
 main > * { grid-column: 2; }
 main > .hero, main > .seccion { grid-column: 1 / -1; }
@@ -110,6 +111,16 @@ main > p { color: var(--texto-suave); margin-bottom: var(--e3); }
               linear-gradient(120deg, var(--violeta-oscuro), var(--violeta) 55%, #3A1C7A);
   color: #fff; overflow: hidden; position: relative;
 }
+/* Con foto: la foto a la derecha, un velo violeta a la izquierda para que el
+   texto se lea sobre cualquier imagen */
+.hero-con-foto {
+  background:
+    linear-gradient(90deg, rgba(31, 5, 85, .96) 0%, rgba(44, 19, 101, .88) 40%, rgba(44, 19, 101, .25) 75%, rgba(44, 19, 101, .05) 100%),
+    var(--banner) center right / cover no-repeat,
+    var(--violeta);
+}
+.hero-con-foto .hero-figura { visibility: hidden; }
+.hero-con-foto .hero-interior { min-height: 460px; }
 .hero-interior { display: grid; grid-template-columns: 1.4fr 1fr; align-items: center; gap: var(--e4); padding-block: var(--e5); min-height: 380px; }
 .hero-antetitulo { color: var(--amarillo); font-weight: 700; text-transform: uppercase; letter-spacing: .12em; font-size: .8125rem; margin-bottom: var(--e1); }
 .hero h1 { font-size: clamp(2rem, 5vw, 3.4rem); line-height: 1.1; font-weight: 800; }
@@ -121,6 +132,12 @@ main > p { color: var(--texto-suave); margin-bottom: var(--e3); }
 .b1 { width: 220px; height: 220px; background: var(--cian); opacity: .55; top: 10px; right: 30px; }
 .b2 { width: 120px; height: 120px; background: var(--amarillo); top: 150px; right: 190px; }
 .b3 { width: 60px; height: 60px; background: #fff; opacity: .25; top: 40px; right: 250px; }
+
+/* ---------- 6b. ACCESO (iniciar sesion y registro), centrado ---------- */
+.acceso { justify-self: center; width: min(100%, 30rem); margin-top: var(--e5); }
+.acceso h1 { text-align: center; font-size: 1.9rem; color: var(--violeta); margin-bottom: var(--e3); }
+.acceso .formulario { max-width: none; }
+.acceso .formulario p:last-child { text-align: center; }
 
 /* ---------- 7. BOTONES Y FORMULARIOS ---------- */
 .boton, button {
@@ -216,6 +233,9 @@ input, select, textarea {
 /* ---------- 11. RESPONSIVE ---------- */
 @media (max-width: 760px) {
   .hero-interior { grid-template-columns: 1fr; min-height: 0; padding-block: var(--e4); }
+  .hero-con-foto { background:
+    linear-gradient(180deg, rgba(31, 5, 85, .80), rgba(44, 19, 101, .92)),
+    var(--banner) center / cover no-repeat, var(--violeta); }
   .hero-figura { display: none; }
   .encabezado { position: static; }
   .marca img { height: 40px; }

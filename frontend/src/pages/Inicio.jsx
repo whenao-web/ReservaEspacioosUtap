@@ -1,4 +1,6 @@
+import { useState } from 'react'
 import { Link } from 'react-router'
+import { BANNER_INICIO } from '../lib/imagenes'
 import { listarEspacios } from '../services/espacios'
 import { useDatos } from '../components/useDatos'
 import TarjetaEspacio from '../components/TarjetaEspacio'
@@ -12,10 +14,14 @@ const PASOS = [
 
 export default function Inicio() {
   const destacados = useDatos(() => listarEspacios())
+  // Si existe img/banner/inicio.jpg se usa de fondo; si no, queda el degradado
+  const [conFoto, setConFoto] = useState(false)
 
   return (
     <>
-      <section className="hero" aria-labelledby="titulo-hero">
+      <section className={`hero ${conFoto ? 'hero-con-foto' : ''}`} aria-labelledby="titulo-hero"
+               style={{ '--banner': `url(${BANNER_INICIO})` }}>
+        <img src={BANNER_INICIO} alt="" hidden onLoad={() => setConFoto(true)} />
         <div className="contenedor hero-interior">
           <div className="hero-texto">
             <p className="hero-antetitulo">Oficina de recursos físicos</p>

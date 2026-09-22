@@ -1,14 +1,21 @@
+import { useState } from 'react'
 import { Link } from 'react-router'
-import { imagenDeEspacio } from '../lib/imagenes'
+import { imagenesDeEspacio } from '../lib/imagenes'
 
 export default function TarjetaEspacio({ espacio }) {
-  const img = imagenDeEspacio(espacio)
+  const candidatas = imagenesDeEspacio(espacio)
+  const [intento, setIntento] = useState(0)
+  const esIlustracion = intento === candidatas.length - 1
+  // Si una imagen no existe, pasa a la siguiente candidata
+  const siguiente = () => setIntento((i) => Math.min(i + 1, candidatas.length - 1))
+
   return (
     <li>
       <article className="tarjeta-espacio">
         <div className="tarjeta-imagen">
-          {/* La foto real describe el espacio; la ilustracion es decorativa */}
-          <img src={img.src} alt={img.real ? `Fotografía de ${espacio.nombre}` : ''} loading="lazy" />
+          {/* La foto describe el espacio; la ilustracion es decorativa */}
+          <img src={candidatas[intento]} alt={esIlustracion ? '' : `Fotografía de ${espacio.nombre}`}
+               loading="lazy" onError={siguiente} />
           <span className="etiqueta-tipo">{espacio.tipo}</span>
           <h2>{espacio.nombre}</h2>
         </div>

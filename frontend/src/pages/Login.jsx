@@ -24,7 +24,7 @@ export default function Login() {
   }
 
   return (
-    <>
+    <div className="acceso">
       <h1>Iniciar sesión</h1>
       <form className="formulario" onSubmit={enviar}>
         <div className="campo">
@@ -39,6 +39,6 @@ export default function Login() {
         <button type="submit" disabled={enviando}>{enviando ? 'Entrando…' : 'Entrar'}</button>
         <p>¿No tiene cuenta? <Link to="/registro">Regístrese</Link></p>
       </form>
-    </>
+    </div>
   )
 }
