@@ -4,7 +4,7 @@ import { useDatos } from '../components/useDatos'
 import { traducirError } from '../lib/errores'
 import Estado from '../components/Estado'
 
-const VACIO = { nombre: '', tipo_espacio_id: '', capacidad: '', ubicacion: '' }
+const VACIO = { nombre: '', tipo_espacio_id: '', capacidad: '', ubicacion: '', imagen: '' }
 
 export default function AdminEspacios() {
   const espacios = useDatos(() => listarEspacios())    // como admin, RLS devuelve tambien los inactivos
@@ -18,7 +18,7 @@ export default function AdminEspacios() {
 
   async function guardar(evento) {
     evento.preventDefault()
-    const datos = { ...form, tipo_espacio_id: Number(form.tipo_espacio_id), capacidad: Number(form.capacidad) }
+    const datos = { ...form, tipo_espacio_id: Number(form.tipo_espacio_id), capacidad: Number(form.capacidad), imagen: form.imagen.trim() || null }
     try {
       if (editando) await actualizarEspacio(editando, datos)
       else await crearEspacio(datos)
@@ -34,7 +34,7 @@ export default function AdminEspacios() {
 
   function editar(e) {
     setEditando(e.id)
-    setForm({ nombre: e.nombre, tipo_espacio_id: String(e.tipo_espacio_id), capacidad: String(e.capacidad), ubicacion: e.ubicacion ?? '' })
+    setForm({ nombre: e.nombre, tipo_espacio_id: String(e.tipo_espacio_id), capacidad: String(e.capacidad), ubicacion: e.ubicacion ?? '', imagen: e.imagen ?? '' })
   }
 
   return (
@@ -63,6 +63,10 @@ export default function AdminEspacios() {
           <div className="campo">
             <label htmlFor="ubicacion">Ubicación</label>
             <input id="ubicacion" name="ubicacion" value={form.ubicacion} onChange={cambiar} />
+          </div>
+          <div className="campo campo-ancho">
+            <label htmlFor="imagen">Imagen (img/espacios/archivo.jpg o https://...)</label>
+            <input id="imagen" name="imagen" value={form.imagen} onChange={cambiar} placeholder="Vacío: ilustración según el tipo" />
           </div>
         </fieldset>
         <p className={`estado ${mensaje.error ? 'error' : ''}`} aria-live="polite">{mensaje.texto}</p>

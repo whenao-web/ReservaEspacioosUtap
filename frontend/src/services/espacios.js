@@ -1,6 +1,6 @@
 import { supabase } from '../lib/supabase'
 
-const CAMPOS = 'id, nombre, capacidad, ubicacion, activo, tipo_espacio_id, tipos_espacio(nombre)'
+const CAMPOS = 'id, nombre, capacidad, ubicacion, imagen, activo, tipo_espacio_id, tipos_espacio(nombre)'
 
 // Aplana la relacion para que el componente reciba la forma del contrato
 const plano = (e) => ({ ...e, tipo: e.tipos_espacio?.nombre ?? '', tipos_espacio: undefined })
