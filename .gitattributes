@@ -1,0 +1,4 @@
+# Los scripts de bash deben tener finales de linea de Linux (LF),
+# aunque el repositorio se clone en Windows. Con CRLF, bash falla.
+*.sh text eol=lf
+*.sql text eol=lf

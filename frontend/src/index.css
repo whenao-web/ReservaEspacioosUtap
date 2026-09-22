@@ -1,0 +1,359 @@
+/* =========================================================================
+   Sistema de Reservas de Espacios
+   Hoja de estilos del proyecto — Clase 5
+
+   Orden de este archivo, y no se cambia:
+     1. Reinicio        lo que hay que apagar del navegador
+     2. Tokens          las decisiones del mockup, en un solo lugar
+     3. Base            tipografia y colores del documento
+     4. Composicion     header, main, footer
+     5. Componentes     tarjeta, boton
+     6. Media queries   lo poco que hace falta, al final
+   ========================================================================= */
+
+
+/* ---------- 1. REINICIO ------------------------------------------------- */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body, h1, h2, h3, p, ul, dl, dd, figure { margin: 0; }
+
+ul { list-style: none; padding: 0; }
+
+img { max-width: 100%; display: block; }
+
+
+/* ---------- 2. TOKENS --------------------------------------------------- */
+/* Las tres decisiones del mockup viven aqui y en ningun otro lado.
+   Cambiar la identidad visual del proyecto entero = cambiar este bloque.   */
+
+:root {
+  /* Color: cuatro, no diez */
+  --marca:        #1F4E79;
+  --marca-oscura: #163A5A;
+  --texto:        #1A202C;
+  --texto-suave:  #5A6577;
+  --fondo:        #F5F6F8;
+  --superficie:   #FFFFFF;
+  --borde:        #D8DDE5;
+  --alerta:       #8F2626;
+
+  /* Espaciado: multiplos de 8, nunca a ojo */
+  --e1: 0.5rem;   /*  8px */
+  --e2: 1rem;     /* 16px */
+  --e3: 1.5rem;   /* 24px */
+  --e4: 2rem;     /* 32px */
+
+  /* Tipografia: una familia, tres tamanos */
+  --fuente: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --t-titulo:    1.75rem;
+  --t-subtitulo: 1.125rem;
+  --t-cuerpo:    1rem;
+
+  --radio: 8px;
+  --sombra:      0 1px 3px rgba(18, 24, 43, .10);
+  --sombra-alta: 0 4px 14px rgba(18, 24, 43, .14);
+  --ancho-max: 1200px;
+}
+
+
+/* ---------- 3. BASE ----------------------------------------------------- */
+
+body {
+  font-family: var(--fuente);
+  font-size: var(--t-cuerpo);
+  line-height: 1.6;
+  color: var(--texto);
+  background: var(--fondo);
+}
+
+a { color: var(--marca); }
+
+/* Nunca se quita el contorno del foco sin poner algo en su lugar */
+:focus-visible {
+  outline: 3px solid var(--marca);
+  outline-offset: 2px;
+}
+
+
+/* ---------- 4. COMPOSICION ---------------------------------------------- */
+
+header {
+  background: var(--superficie);
+  border-bottom: 1px solid var(--borde);
+  padding: var(--e2);
+
+  display: flex;
+  flex-wrap: wrap;              /* sin esto se sale de la pantalla en 360 px */
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--e2);
+}
+
+header .marca {
+  font-weight: 700;
+  font-size: var(--t-subtitulo);
+  color: var(--texto);
+  text-decoration: none;
+}
+
+nav ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--e3);
+}
+
+nav a {
+  color: var(--texto-suave);
+  text-decoration: none;
+  padding: var(--e1) 0;
+}
+
+nav a:hover { color: var(--marca); }
+
+/* El atributo se puso en la clase 3 por accesibilidad. Aqui sirve gratis. */
+nav a.active,
+nav a[aria-current="page"] {
+  color: var(--marca);
+  font-weight: 600;
+  border-bottom: 2px solid var(--marca);
+}
+
+main {
+  max-width: var(--ancho-max);
+  margin: 0 auto;
+  padding: var(--e4) var(--e2);
+}
+
+main > h1 {
+  font-size: var(--t-titulo);
+  margin-bottom: var(--e1);
+}
+
+main > p {
+  color: var(--texto-suave);
+  margin-bottom: var(--e4);
+}
+
+section > h2 {
+  font-size: var(--t-subtitulo);
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: var(--texto-suave);
+  margin-bottom: var(--e3);
+}
+
+footer {
+  border-top: 1px solid var(--borde);
+  padding: var(--e3) var(--e2);
+  color: var(--texto-suave);
+  font-size: .875rem;
+  text-align: center;
+}
+
+
+/* ---------- 5. COMPONENTES ---------------------------------------------- */
+
+/* La grilla. Esta declaracion sola reemplaza tres media queries. */
+.lista-espacios {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--e3);
+}
+
+.tarjeta-espacio {
+  background: var(--superficie);
+  border: 1px solid var(--borde);
+  border-radius: var(--radio);
+  box-shadow: var(--sombra);
+  padding: var(--e3);
+
+  /* Grid ordena las tarjetas entre si; Flexbox ordena lo de adentro */
+  display: flex;
+  flex-direction: column;
+  gap: var(--e2);
+
+  transition: box-shadow .2s ease, transform .2s ease;
+}
+
+.tarjeta-espacio:hover {
+  box-shadow: var(--sombra-alta);
+  transform: translateY(-2px);
+}
+
+.tarjeta-espacio h2 {
+  font-size: var(--t-subtitulo);
+  color: var(--marca);
+}
+
+.tarjeta-espacio img {
+  border-radius: var(--radio);
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  background: var(--fondo);
+}
+
+.tarjeta-espacio dl {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--e1) var(--e2);
+  font-size: .9375rem;
+}
+
+.tarjeta-espacio dt {
+  color: var(--texto-suave);
+  font-weight: 600;
+}
+
+/* margin-top: auto empuja el enlace al fondo de la tarjeta.
+   Asi todos quedan alineados aunque las tarjetas tengan textos distintos. */
+.tarjeta-espacio > a {
+  margin-top: auto;
+  display: inline-block;
+  background: var(--marca);
+  color: var(--superficie);
+  text-decoration: none;
+  text-align: center;
+  padding: .625rem var(--e3);
+  border-radius: var(--radio);
+  font-weight: 600;
+}
+
+.tarjeta-espacio > a:hover { background: var(--marca-oscura); }
+
+
+/* ---------- 6. MEDIA QUERIES -------------------------------------------- */
+/* Mobile first: lo de arriba es la base y funciona en cualquier ancho.
+   Aqui solo va lo que NO se pudo resolver con grid y flex.               */
+
+@media (max-width: 420px) {
+  main { padding: var(--e3) var(--e2); }
+  main > h1 { font-size: 1.5rem; }
+  .tarjeta-espacio { padding: var(--e2); }
+}
+
+/* Respeta a quien configuro su sistema para reducir el movimiento */
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; }
+  .tarjeta-espacio:hover { transform: none; }
+}
+
+
+/* ---------- 7. AGREGADO EN LA CLASE 6 ----------------------------------- */
+/* Filtros, estados de pantalla y formulario. Mismos tokens, nada nuevo.   */
+
+.filtros {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: var(--e2);
+  margin-bottom: var(--e3);
+}
+
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--e1);
+}
+
+.campo label { font-weight: 600; }
+
+input, select, textarea, button {
+  font: inherit;
+  padding: .625rem var(--e2);
+  border: 1px solid var(--borde);
+  border-radius: var(--radio);
+  background: var(--superficie);
+  color: var(--texto);
+}
+
+button {
+  background: var(--marca);
+  border-color: var(--marca);
+  color: var(--superficie);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+button:hover { background: var(--marca-oscura); }
+
+.estado {
+  color: var(--texto-suave);
+  margin-bottom: var(--e2);
+}
+
+.estado.error { color: var(--alerta); font-weight: 600; }
+
+.formulario {
+  background: var(--superficie);
+  border: 1px solid var(--borde);
+  border-radius: var(--radio);
+  padding: var(--e3);
+  max-width: 36rem;
+  display: grid;
+  gap: var(--e3);
+}
+
+.formulario fieldset {
+  border: 0;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+  gap: var(--e2);
+}
+
+.formulario legend {
+  font-weight: 700;
+  margin-bottom: var(--e1);
+}
+
+
+/* ---------- 8. AGREGADO PARA LA VERSION REACT ---------------------------- */
+
+#root { min-height: 100vh; display: flex; flex-direction: column; }
+#root > main { flex: 1; width: 100%; }
+
+main > h2, .formulario h2, section > h2 { font-size: var(--t-subtitulo); margin-bottom: var(--e2); }
+
+.oculto {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+.boton {
+  display: inline-block; background: var(--marca); color: var(--superficie);
+  padding: .625rem var(--e3); border-radius: var(--radio); text-decoration: none; font-weight: 600;
+}
+
+button.secundario { background: var(--superficie); color: var(--marca); border-color: var(--marca); }
+button.secundario:hover { background: var(--fondo); }
+button.peligro { background: var(--superficie); color: var(--alerta); border-color: var(--alerta); }
+button.enlace {
+  background: none; border: 0; padding: var(--e1) 0; color: var(--texto-suave); font-weight: 400;
+}
+button.enlace:hover { color: var(--marca); background: none; }
+button:disabled { opacity: .6; cursor: wait; }
+
+.acciones { display: flex; flex-wrap: wrap; gap: var(--e1); }
+
+.formulario { margin-bottom: var(--e4); }
+
+.franjas { display: flex; flex-wrap: wrap; gap: var(--e1); }
+.franjas li {
+  background: var(--fondo); border: 1px solid var(--borde);
+  border-radius: var(--radio); padding: var(--e1) var(--e2);
+}
+
+.tabla {
+  width: 100%; border-collapse: collapse; background: var(--superficie);
+  border: 1px solid var(--borde); border-radius: var(--radio);
+  display: block; overflow-x: auto;        /* en 360 px la tabla se desplaza, la pagina no */
+}
+.tabla th, .tabla td { padding: var(--e1) var(--e2); text-align: left; border-bottom: 1px solid var(--borde); vertical-align: middle; }
+.tabla th { color: var(--texto-suave); font-size: .875rem; }
+
+.barra {
+  display: block; height: .5rem; margin-bottom: .25rem;
+  background: var(--marca); border-radius: 4px; min-width: 2px;
+}

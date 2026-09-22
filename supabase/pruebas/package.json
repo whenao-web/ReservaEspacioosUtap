@@ -1,0 +1,11 @@
+{
+  "name": "pruebas-base-de-datos",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test --test-concurrency=1 reglas.test.mjs"
+  },
+  "dependencies": {
+    "pg": "^8.16.0"
+  }
+}
